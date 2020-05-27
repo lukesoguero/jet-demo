@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014, 2020, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+
+<!-- ************************ IMPORTANT INFORMATION ************************************
+  This web basic template is provided as an example of how to configure
+  a JET web application.  It contains the Oracle JET framework and a default
+  requireJS configuration file to show how JET can be setup in a common application.
+  This project template can be used in conjunction with demo code from the JET
+  website to test JET component behavior and interactions.
+
+  Any CSS styling with the prefix "demo-" is for demonstration only and is not
+  provided as part of the JET framework.
+
+  Please see the demos under Cookbook/Patterns/App Shell: Web and the CSS documentation
+  under Support/API Docs/Non-Component Styling on the JET website for more information on how to use 
+  the best practice patterns shown in this template.
+
+  Aria Landmark role attributes are added to the different sections of the application
+  for accessibility compliance. If you change the type of content for a specific
+  section from what is defined, you should also change the role value for that
+  section to represent the appropriate content type.
+  ***************************** IMPORTANT INFORMATION ************************************ -->
+<html lang="en-us">
+  <head>
+    <title>Demo App</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+
+    <!-- This is the main css file for the default Alta theme -->
+    <!-- injector:theme -->
+    <link rel="stylesheet" href="css/libs/oj/v8.3.0/alta/oj-alta-min.css" type="text/css"/>
+    <!-- endinjector -->
+    <!-- This contains icon fonts used by the starter template -->
+    <link rel="stylesheet" href="css/demo-alta-site-min.css" type="text/css"/>
+
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="css/libs/fa/all.min.css"/>
+
+  </head>
+  <body class="oj-web-applayout-body" style="background-color: #f8f7f4;">
+    <div id="globalBody" class="oj-web-applayout-page">
+      <!--
+         ** Oracle JET V8.3.0 web application header pattern.
+         ** Please see the demos under Cookbook/Patterns/App Shell: Web
+         ** and the CSS documentation under Support/API Docs/Non-Component Styling
+         ** on the JET website for more information on how to use this pattern.
+      -->
+      <header role="banner" class="oj-web-applayout-header" style="background-color: #383431;">
+        <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
+          <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
+            <span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>
+            <h1 class="oj-sm-only-hide oj-web-applayout-header-title" title="Application Name"><oj-bind-text value="[[appName]]"></oj-bind-text></h1>
+          </div>
+          <div class="oj-flex-bar-end">
+            <!-- Responsive Toolbar -->
+            <oj-toolbar>
+              <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half">
+                <span><oj-bind-text value="[[userLogin]]"></oj-bind-text></span>
+                <span slot="endIcon" :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
+                <oj-menu id="menu1" slot="menu" style="display:none">
+                  <oj-option id="pref" value="pref">Preferences</oj-option>
+                  <oj-option id="help" value="help">Help</oj-option>
+                  <oj-option id="about" value="about">About</oj-option>
+                  <oj-option id="out" value="out">Sign Out</oj-option>
+                </oj-menu>
+              </oj-menu-button>
+            </oj-toolbar>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
+        <h2>AL_RADIUS_VPN</h2>
+        <p>Assurance level for VPN clients of Radius Proxy</p>
+        <oj-form-layout class="oj-panel oj-panel-shadow-lg"">
+          <oj-tab-bar display="all" selection="{{selectedItem}}" edge="top" style="max-width: 10em;">
+            <ul >
+              <li id="details">
+                <a href="#">
+                  Details
+                </a>
+              </li>
+              <li id="policy">
+                <a href="#">
+                  Policy
+                </a>
+              </li>
+            </ul>
+          </oj-tab-bar>
+          <p class="description-text">Define a Policy for the assurance level</p>
+          <br>
+          <div class="description-text"><strong>If condition met</strong></div>
+          <div class="oj-flex oj-flex-items-pad oj-lg-align-items-center ">
+            <div class="oj-flex-item oj-lg-3">
+              <oj-label for="nameSelect">Attribute Name</oj-label>
+              <oj-select-single id="nameSelect"
+                data="[[attributeNames]]"
+                value="user"
+                label-hint="Attribute Name"
+                style="max-width: 100%;">
+              </oj-select-single>
+            </div>
+            <div class="oj-flex-item oj-lg-2">
+              <oj-label for="operatorSelect">Operator</oj-label>
+              <oj-select-single id="operatorSelect"
+                data="[[operators]]"
+                value="equals"
+                label-hint="Operator"
+                style="max-width: 100%;">
+              </oj-select-single>
+            </div>
+            <div class="oj-flex-item oj-lg-4">
+              <oj-label for="valueSelect">Attribute Value</oj-label>
+              <oj-combobox-many id="valueSelect"
+                options="[[attributeValues]]"
+                value="[[defaultVals]]"
+                label-hint="Attribute Value"
+                style="max-width: 100%;">
+              </oj-combobox-many>
+            </div>
+            <oj-button class="oj-flex-item square-button" on-oj-action='[[buttonClick]]' chroming="outlined" display='icons'>
+              <i class="fas fa-plus"></i>
+            </oj-button>
+            <oj-button class="oj-flex-item square-button" on-oj-action='[[buttonClick]]' chroming="outlined" display='icons'>
+              <i class="fas fa-times"></i>
+            </oj-button>
+          </div>
+          <br>
+          <div class="description-text"><strong>Use the following factors</strong></div>
+          <oj-checkboxset class='oj-choice-direction-row'>
+            <oj-option value="email">Email</oj-option>
+            <oj-option value="sms">SMS</oj-option>
+            <oj-option value="otp">OTP</oj-option>
+            <oj-option value="fido">FIDO</oj-option>
+          </oj-checkboxset>
+          <br> <br> <br> <br>
+          <div class="oj-flex oj-flex-items-pad oj-lg-align-items-flex-start">
+            <oj-button class="oj-flex-item" chroming="outlined" style="max-width: 100px;">Cancel</oj-button>
+            <oj-button class="oj-flex-item oj-button-confirm" style="max-width: 100px;">Save</oj-button>
+          </div>
+        </oj-form-layout>
+      </div>
+    </div>
+    
+    <script type="text/javascript" src="js/libs/require/require.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+
+</html>

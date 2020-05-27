@@ -1,0 +1,9 @@
+.description-text {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.square-button {
+    max-width: 60px;
+    max-height: 60px;
+}
